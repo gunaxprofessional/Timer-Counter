@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guna</title>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+
+        body {
+            display: inline-block;
+            margin: 80px;
+            border: 2px solid #ffffff;
+            min-width: 160px;
+            height: 100%; 
+        }
+
+        #main {
+            background-color: cadetblue;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            box-shadow: 4px 4px cadetblue;
+        }
+
+        #main #title {
+            color: #ffffff;
+        }
+
+        input[type=text] {
+            padding: 5px;
+            margin: 5px;
+            margin-left: 2px;
+            outline: none;
+            border: 2px solid cadetblue;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        input[type=submit] {
+            border: 1px solid #ffffff;
+            outline: none;
+            border-radius: 3px;
+            color: #ffffff;
+            background-color: cadetblue;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 3px;
+            border-width: 2px;
+            margin: 3px;
+            letter-spacing: 1px;
+        }
+
+        input[type=submit]:hover{
+            background-color: aquamarine;
+            
+        }
+
+        #main1{
+            margin-top: 15px;
+        }
+
+        #main1 h2{
+            color: #ffffff;
+            font-size: 25px;
+        }
+
+        @media only screen and (max-width: 500px) {
+            input[type=text]{
+                width: 170px;
+            }
+            #main #title {
+           font-size: 13px;
+        }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="main">
+        <div id="countdown">
+                <div id='title'>
+                    <h1><p  style="margin-bottom: 15px;"> <u>COUNT DOWN</u> </p> </h1> 
+                </div>
+                <input type="text" placeholder="Enter the hour" required id="hrs"> <br>
+                <input type="text" placeholder="Enter the Minutes" required id="min"> <br>
+                <input type="text" placeholder="Enter the Seconds" required id="sec"> <br>
+                <input type="submit" name="Start"  style="margin-top: 15px;" onclick="startstop()" value="START" id="first button">
+        </div>
+        <div id="main1">
+            <div id='title'>
+                <h1><b> <u>COUNT DOWN</u></b></h1> <br>
+            </div>
+            <h2>
+                <span id="hour1">00</span> Hours <br>
+                <span id="min1">00</span> Min<br>
+                <span id="sec1">00</span> Sec <br>
+            </h2>
+            <div id="btn">
+                <br>
+                <input type="submit" id="start" onclick="countdownTimer()" name="start" value="START">
+                <input type="submit" id="stop" onclick="stop()" name="stop" value="STOP">
+                <input type="submit" name="reset" onclick="reset()" value="RESET">
+            </div> <br>
+        </div>
+    </div>
+</body>
+<script>
+
+    function startstop() {
+
+        var hour2 = parseInt(document.getElementById('hrs').value);
+        var minute2 = parseInt(document.getElementById('min').value);
+        var second2 = parseInt(document.getElementById('sec').value);
+
+
+        document.getElementById('hour1').innerHTML = hour2;
+        document.getElementById('min1').innerHTML = minute2;
+        document.getElementById('sec1').innerHTML = second2;
+    };
+
+    var x;
+
+    var hour1 = 0;
+    var min1 = 0;
+    var sec1 = 0;
+    var check = 0;
+    var flag = 0;
+
+    function countdownTimer() {
+        if (check == 0 && document.getElementById('min') && document.getElementById('sec') && document.getElementById('hrs')) {
+            hour1 = parseInt(document.getElementById('hrs').value);
+            min1 = parseInt(document.getElementById('min').value) + 0;
+            sec1 = parseInt(document.getElementById('sec').value) * 1;
+
+            if (isNaN(min1)) min1 = 0;
+            if (isNaN(sec1)) sec1 = 0;
+            if (isNaN(hour1)) hour1 = 0;
+
+
+            document.getElementById('hour1').innerHTML = hour1;
+            document.getElementById('min1').value = min1;
+            document.getElementById('sec1').value = sec1;
+            check = 1;
+        }
+
+
+
+
+
+        if (min1 <= 0 && sec1 <= 0 && hour1 <= 0) {
+            alert("Time Up Guys");
+            return false;
+        }
+        else {
+
+            sec1--;
+            if (sec1 < 0) {
+                if (min1 > 0) {
+                    sec1 = 59;
+                    min1--;
+                    if (sec1 <= 0 && min1 <= 0) {
+                        if (hour2 == 0) {
+                            flag = 1;
+                        }
+                        sec1 = 59;
+                        min1 = 60;
+                        hour1--;
+                    }
+                }
+                else {
+                    sec1 = 0;
+                    min1 = 0;
+                    hour1 = 0;
+                }
+            }
+        }
+
+        if (sec1 < 10) {
+            sec1 = "0" + sec1;
+        }
+
+
+        document.getElementById('hour1').innerHTML = hour1;
+        document.getElementById('min1').innerHTML = min1;
+        document.getElementById('sec1').innerHTML = sec1;
+        x = setTimeout('countdownTimer()', 1000);
+    }
+
+    function stop() {
+        clearInterval(x);
+    }
+
+
+
+
+
+    //        document.getElementById("sec1").innerHTML = sec;
+    //        document.getElementById("min1").innerHTML = min;
+    //        document.getElementById("hour2").innerHTML = hour2;
+
+
+
+
+    function reset() {
+        stop();
+        sec1 = document.getElementById("sec").value;
+        min1 = document.getElementById("min").value;
+        hour1 = document.getElementById("hrs").value;
+
+        document.getElementById("sec1").innerHTML = sec1;
+        document.getElementById("min1").innerHTML = min1;
+        document.getElementById("hour1").innerHTML = hour1;
+    }
+</script>
+
+</html>
